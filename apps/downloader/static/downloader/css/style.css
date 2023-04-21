@@ -1,0 +1,216 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+header, main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  display: flex;
+  background-color: black;
+  color: white;
+  font-size: 1.8rem;
+  flex-wrap: wrap;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Barlow', sans-serif;
+}
+
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.dark {
+  background-color: #fff;
+  color: black;
+}
+
+.dark span {
+  color: black;
+}
+
+.dark button {
+  background-color: black;
+  color: #fff;
+}
+
+.dark input, .dark select {
+  border: black 1px solid;
+}
+
+
+header, main, form {
+  width: 100%;
+}
+
+header {
+  padding: 20px;
+  margin-bottom: 20px;
+  height: 100px;
+}
+
+h1 {
+  font-size: 5.2rem;
+  line-height: 44px;
+}
+
+span {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  height: 44px;
+  margin-left: 35px;
+  color: aliceblue;
+}
+
+span #dark-mode {
+  position: relative;
+  top: 6px;
+  left: 320px;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+}
+
+main {
+  padding: 20px;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 32px;
+  padding: 30px;
+}
+
+.form-control {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+label {
+  margin-right: 10px;
+}
+
+input {
+  width: 45rem;
+}
+
+input, select {
+  font-size: 1.6rem;
+  padding: 6px 8px 6px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+button {
+  width: 14rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  transition: 0.3s ease-in-out;
+}
+
+button:hover {
+  scale: 1.04;
+  background-color: rgb(244, 82, 82);
+}
+
+@media (max-width: 850px) {
+  header {
+    width: 83%;
+    padding: 0;
+  }
+
+  h1 {
+    font-size: 3.6rem;
+  }
+
+  span {
+    position: relative;
+    width: auto;
+  }
+  
+  span #dark-mode {
+    position: relative;
+    width: 28px;
+    top: 1;
+    left: 0;
+  }
+
+  main {
+    width: 83%;
+    padding: 0;
+  }
+
+  form {
+    max-width: 450px;
+  }
+
+  .form-container {
+    width: 100%;
+    padding: 0;
+  }
+
+  input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 580px) {
+  h1 {
+    font-size: 3.4rem;
+  }
+  
+  span #dark-mode {
+    width: 24px;
+    top: 1;
+    left: 0;
+  }
+
+  input form {
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 3.2rem;
+    width: 180px;
+  }
+
+  span {
+    margin-left: 12px;
+  }
+  
+  span #dark-mode {
+    width: 22px;
+    top: 0;
+  }
+}
