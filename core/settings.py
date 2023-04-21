@@ -36,13 +36,15 @@ SITE_NAME = 'SV YouTube Downloader'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1"
+    'localhost',
+    '127.0.0.1',
+    '44.201.29.87',
 ]
 
 if not DEBUG:
     ALLOWED_HOSTS = [
         'https://juansoto10.github.io',
+        '44.201.29.87',
     ]
 
 
@@ -113,26 +115,26 @@ DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # CORS
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    'http://localhost:5500',
-    'http://localhost:8000',
-]
+# CORS_ORIGIN_WHITELIST = [
+#     'http://localhost:3000',
+#     'http://localhost:5500',
+#     'http://localhost:8000',
+# ]
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',
-    'http://localhost:5500',
-    'http://localhost:8000',
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'http://localhost:3000',
+#     'http://localhost:5500',
+#     'http://localhost:8000',
+# ]
 
-if not DEBUG:
-    CORS_ORIGIN_WHITELIST = [
-        'https://juansoto10.github.io',
-    ]
+# if not DEBUG:
+#     CORS_ORIGIN_WHITELIST = [
+#         'https://juansoto10.github.io',
+#     ]
     
-    CSRF_TRUSTED_ORIGINS = [
-        'https://juansoto10.github.io',
-    ]
+#     CSRF_TRUSTED_ORIGINS = [
+#         'https://juansoto10.github.io',
+#     ]
 
 
 # Password hashes
@@ -180,6 +182,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
