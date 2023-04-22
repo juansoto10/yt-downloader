@@ -33,7 +33,7 @@ SITE_NAME = 'SV YouTube Downloader'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -41,7 +41,7 @@ ALLOWED_HOSTS = [
     '44.201.29.87',
 ]
 
-if not DEBUG:
+if DEBUG:
     ALLOWED_HOSTS = [
         'https://juansoto10.github.io',
         '44.201.29.87',
@@ -64,7 +64,8 @@ PROJECT_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    
+    'storages',
+    'corsheaders',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
@@ -72,6 +73,7 @@ INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -115,26 +117,38 @@ DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # CORS
 
-# CORS_ORIGIN_WHITELIST = [
-#     'http://localhost:3000',
-#     'http://localhost:5500',
-#     'http://localhost:8000',
-# ]
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://localhost:5500',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1',
+    'http://44.201.29.87',
+]
 
-# CSRF_TRUSTED_ORIGINS = [
-#     'http://localhost:3000',
-#     'http://localhost:5500',
-#     'http://localhost:8000',
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'http://localhost:5500',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1',
+    'http://44.201.29.87',
+]
 
-# if not DEBUG:
-#     CORS_ORIGIN_WHITELIST = [
-#         'https://juansoto10.github.io',
-#     ]
+if not DEBUG:
+    CORS_ORIGIN_WHITELIST = [
+        'https://juansoto10.github.io',
+        'http://127.0.0.1:8000',
+        'http://127.0.0.1',
+        'http://44.201.29.87',
+    ]
     
-#     CSRF_TRUSTED_ORIGINS = [
-#         'https://juansoto10.github.io',
-#     ]
+    CSRF_TRUSTED_ORIGINS = [
+        'https://juansoto10.github.io',
+        'http://127.0.0.1:8000',
+        'http://127.0.0.1',
+        'http://44.201.29.87',
+    ]
 
 
 # Password hashes
@@ -229,36 +243,39 @@ FILE_UPLOAD_PERMISSIONS = 0o640
 EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
 
 if not DEBUG:
-    DEFAULT_FROM_EMAIL="Juan <sjuan23p@gmail.com>"
-    EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = env('EMAIL_HOST')
-    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-    EMAIL_PORT = env('EMAIL_PORT')
-    EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+    # DEFAULT_FROM_EMAIL="Juan <sjuan23p@gmail.com>"
+    # EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+    # EMAIL_HOST = env('EMAIL_HOST')
+    # EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+    # EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    # EMAIL_PORT = env('EMAIL_PORT')
+    # EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
     
-    # django-ckeditor will not work with S3 through django-storages without this line in settings.py
-    AWS_QUERYSTRING_AUTH = False
+    # # django-ckeditor will not work with S3 through django-storages without this line in settings.py
+    # AWS_QUERYSTRING_AUTH = False
 
     # aws settings
-    AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
-
+    # s3 static settings
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
     AWS_DEFAULT_ACL = 'public-read'
 
-    # s3 static settings
-
     STATIC_LOCATION = 'static'
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+
+    
 
     # s3 public media settings
 
-    PUBLIC_MEDIA_LOCATION = 'media'
-    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
-    DEFAULT_FILE_STORAGE = 'core.storage_backends.MediaStore'
+    # PUBLIC_MEDIA_LOCATION = 'media'
+    # MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
+    # DEFAULT_FILE_STORAGE = 'core.storage_backends.MediaStore'
