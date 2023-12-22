@@ -1,4 +1,5 @@
-import io
+"""Views"""
+# import io
 from django.http import HttpResponse
 from django.shortcuts import render
 from pytube import YouTube
@@ -8,27 +9,44 @@ from pytube.exceptions import VideoUnavailable
 def download_video(request):
     if request.method == 'POST':
         video_url = request.POST.get('url')
-        try:
-            yt = YouTube(video_url)
-            stream = yt.streams.get_highest_resolution()
-        except VideoUnavailable:
-            return HttpResponse("The video is unavailable")
-        except Exception as e:
-            return HttpResponse("An error occurred: {}".format(str(e)))
-        else:
+        format_requested = request.POST.get('format')
+
+        if format_requested == 'mp4':
+            try:
+                yt = YouTube(video_url)
+                stream = yt.streams.get_highest_resolution()
+            except VideoUnavailable:
+                return HttpResponse('The video is unavailable')
+            except Exception as error:
+                return HttpResponse(f'An error occurred: {str(error)}')
+
             response = HttpResponse(content_type='video/mp4')
-            response['Content-Disposition'] = 'attachment; filename="{}.mp4"'.format(yt.title)
+            response['Content-Disposition'] = f'attachment; filename="{yt.title}.mp4"'
             stream.stream_to_buffer(response)
             return response
-    else:
-        return render(request, 'downloader/index.html')
-    
+
+        if format_requested == 'mp3':
+            try:
+                yt = YouTube(video_url)
+                stream = yt.streams.filter(only_audio=True).first()
+            except VideoUnavailable:
+                return HttpResponse('The video is unavailable')
+            except Exception as error:
+                return HttpResponse(f'An error occurred: {str(error)}')
+
+            response = HttpResponse(content_type='audio/mpeg')
+            response['Content-Disposition'] = f'attachment; filename="{yt.author} - {yt.title}.mp3"'
+            stream.stream_to_buffer(response)
+            return response
+
+    return render(request, 'downloader/download.html')
+
 
 def home(request):
     try:
         return render(request, 'downloader/index.html')
-    except Exception as e:
-        return HttpResponse("Error")
+    except Exception as error:
+        return HttpResponse(f'An error occurred: {str(error)}')
 
 # ###### WORKING BEFORE
 

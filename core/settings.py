@@ -33,7 +33,7 @@ SITE_NAME = 'SV YouTube Downloader'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -41,8 +41,9 @@ ALLOWED_HOSTS = [
     '44.201.29.87',
 ]
 
-if DEBUG:
+if not DEBUG:
     ALLOWED_HOSTS = [
+        '127.0.0.1',
         'https://juansoto10.github.io',
         '44.201.29.87',
     ]
@@ -142,7 +143,7 @@ if not DEBUG:
         'http://127.0.0.1',
         'http://44.201.29.87',
     ]
-    
+
     CSRF_TRUSTED_ORIGINS = [
         'https://juansoto10.github.io',
         'http://127.0.0.1:8000',
@@ -240,7 +241,7 @@ AUTHENTICATION_BACKENDS = (
 FILE_UPLOAD_PERMISSIONS = 0o640
 
 
-EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 if not DEBUG:
     # DEFAULT_FROM_EMAIL="Juan <sjuan23p@gmail.com>"
@@ -251,7 +252,6 @@ if not DEBUG:
     # EMAIL_PORT = env('EMAIL_PORT')
     # EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
-    
     # # django-ckeditor will not work with S3 through django-storages without this line in settings.py
     # AWS_QUERYSTRING_AUTH = False
 
@@ -263,16 +263,13 @@ if not DEBUG:
     # s3 static settings
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    
+
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
     AWS_DEFAULT_ACL = 'public-read'
 
     STATIC_LOCATION = 'static'
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-
-
-    
 
     # s3 public media settings
 
